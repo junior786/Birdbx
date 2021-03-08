@@ -1,0 +1,24 @@
+#header{
+
+background-color:#FA371D ;
+}
+
+.textareacss{
+   height: 200px;
+   width: 500px;
+   border-radius: 3px;
+}
+#cadastro{
+    border-radius: 3px;
+    box-shadow: 0px 0px 5px gray;
+    
+}
+
+#numberG{
+    color:#FA5D2F;
+    font-weight: bold
+}
+#notacaoG{
+    
+}
+

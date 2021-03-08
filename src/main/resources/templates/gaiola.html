@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="materialize/style/styleCss.css">
+    <link href="materialize/css/style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gaiolas</title>
+</head>
+<body>
+<nav>
+    <div class="nav-wrapper" id="header">
+        <a href="/" class="brand-logo">BirdBx</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="/gaiola">Gaiola</a></li>
+            <li><a href="/passaros">Passáros</a></li>
+        </ul>
+    </div>
+</nav>
+<h1 class="center">CADASTRAMENTO</h1>
+<header>
+    <div class="row">
+        <form method="post" class="container">
+            <div class="row">
+                <div class="input-field col s2">
+                    Numero da gaiola: <input type="number" name="numero" placeholder="5" value="" required>
+                </div>
+                <div class="input-field col s2">
+                    Numero de filhotes: <input type="number" name="numeroFilhotes" placeholder="2" value="" required>
+                </div>
+            </div>
+            <div>
+                <textarea placeholder="Escreva sua notacao aqui"
+                          name="notacao" onresize="none" class="textareacss"></textarea>
+            </div>
+            <button class="waves-effect waves-light btn" type="submit"><i class="material-icons left">
+                add_circle_outline</i>Criar gaiola
+            </button>
+        </form>
+    </div>
+
+</header>
+<div class="row">
+    <table id="cadastro">
+        <thead>
+        <tr>
+            <th>Numero da gaiola</th>
+            <th>Numero de filhotes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="gaiola : ${gaiolas}">
+            <td><span th:text="${gaiola.numero}"></span></td>
+            <td><span th:text="${gaiola.numeroFilhotes}"></span></td>
+            <td><a th:href="@{/deletarGaiola{id}(id = ${gaiola.id}) }"><i
+                    class="material-icons left">delete</i></a></td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+</body>
+</html>

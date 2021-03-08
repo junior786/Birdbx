@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="materialize/style/styleCss.css">
+    <link href="materialize/css/locacao.css" rel="stylesheet">
+    <link href="materialize/css/style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gaiolas</title>
+</head>
+<body>
+<nav>
+    <div class="nav-wrapper" id="header">
+        <a href="/" class="brand-logo">BirdBx</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="/gaiola">Gaiola</a></li>
+            <li><a href="/passaros">Passáros</a></li>
+        </ul>
+    </div>
+</nav>
+<h1 class="center"><b>EDITAR</b></h1>
+<header>
+    <div class="row">
+        <form method="post" class="container center">
+            <div class="row">
+                <div class="input-field col s2">
+                    ID passaro: <input type="number" name="id" placeholder="1" value="" required id="idPassaro">
+                </div>
+            </div>
+            <a id="sendPassaro"><button class="waves-effect waves-light btn" type="submit"><i class="material-icons left">
+                add_circle_outline</i>Adicionar passaro</button> </a>
+        </form>
+        
+    </div>
+
+</header>
+<div class="row" id="minhaTabela">
+    
+    <table>
+        <thead>
+        <tr>
+
+            <th>id</th>
+            <th>raca</th>
+            <th>sexo</th>
+            <th>Numero da gaiola</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="passaro : ${passaros}">
+            
+            <td th:text="${passaro.id}"></td>
+            <td><span th:text="${passaro.raca}"></span> </td>
+            <td><span th:text="${passaro.sexo}"></span> </td>
+            <td><span th:text="${passaro.gaiola}"></span> </td>
+            <td><a th:href="@{/removerPassaro{id}(id = ${passaro.id}) }"><i
+                    class="material-icons left">delete</i></a></td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript" src="materialize/js/tableSelect.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+</body>
+</html>

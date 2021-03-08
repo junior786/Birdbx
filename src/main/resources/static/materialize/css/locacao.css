@@ -1,0 +1,33 @@
+
+#minhaTabela thead th{
+  font-weight: bold;
+  color:black;
+  
+  
+}
+
+#minhaTabela tr td{
+  
+  
+  cursor: pointer; /**importante para não mostrar cursor de texto**/
+}
+
+
+/**Cores**/
+
+/**Cor quando passar por cima**/
+#minhaTabela tr:hover td{
+  background-color: #af9a91;
+}
+
+/**Cor quando selecionado**/
+#minhaTabela tr.selecionado td{
+  background-color: #aff7ff;
+}
+
+button#visualizarDados{
+  background-color: white;
+  border: 1px solid black;
+  display: block;
+  color: black;
+}
