@@ -12,14 +12,22 @@ public class Passaro {
     @Column
     @NotEmpty
     private String raca;
-
     @Column
-    @NotEmpty
     private String sexo;
     @ManyToOne
     private Gaiola gaiola;
     @ManyToOne
     private Usuario usuario;
+    @Column
+    private String identificacao;
+
+    public String getIdentificacao() {
+        return identificacao;
+    }
+
+    public void setIdentificacao(String identificacao) {
+        this.identificacao = identificacao;
+    }
 
     public Usuario getUsuario() {
         return usuario;

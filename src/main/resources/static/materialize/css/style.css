@@ -3,6 +3,12 @@
 background-color:#FA371D ;
 }
 
+input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
 .textareacss{
    height: 200px;
    width: 500px;
@@ -11,14 +17,55 @@ background-color:#FA371D ;
 #cadastro{
     border-radius: 3px;
     box-shadow: 0px 0px 5px gray;
-    
 }
-
 #numberG{
     color:#FA5D2F;
     font-weight: bold
 }
-#notacaoG{
+
+.mensagem{
+    align-content: flex-end;
+}
+.card-bird{
+    grid-template-columns: repeat(auto-fill,minmax(50px,1fr));
+    position: relative;
+    text-shadow: #FA5D2F;
+    border-radius: 15px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif ;
     
 }
+.notacao{
+    font-weight: 300px;
 
+}
+#erro{
+    font-family: 'Montserrat';
+    size: 28px;
+    font: bolder;
+    color: rgb(0, 0, 0)
+}
+#enviar{
+    background-color: brown;
+    margin-left: 150px;
+}
+.table{
+    font-family: 'Montserrat', sans-serif;
+}
+.table td{
+    color: #FA5D2F;
+    size: 20px;
+    background-color: #bbb;
+    font: bold;
+}
+.titulo{
+    font-family: 'Comfortaa', cursive;
+}
+
+.card{
+    border-radius: 10px;
+}
+#notacaoG{
+    font-family: 'Comfortaa', cursive;
+    font-size: 15px;
+}
+   

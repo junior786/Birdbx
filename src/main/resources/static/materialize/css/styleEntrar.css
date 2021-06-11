@@ -245,4 +245,9 @@ html {
   #icon {
 	width:60%;
   }
-  
+
+  .card{
+    weight: 5px;
+    height: 5px;
+
+  }

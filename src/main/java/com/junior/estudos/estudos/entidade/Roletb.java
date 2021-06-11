@@ -10,7 +10,7 @@ public class Roletb implements GrantedAuthority {
     @Id
     private String nomeRole;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     private List<Usuario> usuarios;
 
     public List<Usuario> getUsuarios() {

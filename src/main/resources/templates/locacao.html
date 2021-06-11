@@ -1,11 +1,12 @@
 <!doctype html>
 <html lang="pt-br" xmlns:th="http://thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <head>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="materialize/style/styleCss.css">
     <link href="materialize/css/locacao.css" rel="stylesheet">
     <link href="materialize/css/style.css" rel="stylesheet">
     <meta charset="UTF-8">
@@ -15,15 +16,29 @@
     <title>Gaiolas</title>
 </head>
 <body>
-<nav>
-    <div class="nav-wrapper" id="header">
-        <a href="/" class="brand-logo">BirdBx</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="/gaiola">Gaiola</a></li>
-            <li><a href="/passaros">Passáros</a></li>
-        </ul>
-    </div>
-</nav>
+<div class="navbar-fixed">
+    <nav id="header">
+        <div class="nav-wrapper">
+            <a href="/" class="brand-logo">BIRD BX</a>
+            <a href="#" data-target="mobile-navbar" class="sidenav-trigger">
+                <i class="material-icons">menu</i>
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="/gaiola">Gaiola</a></li>
+                <li><a href="/passaros">Passáros</a></li>
+                <li><a href="/static">Dados</a></li>
+                <li><a href="/logout">Sair</a></li>
+                <li sec:authorize="hasRole('ADMIN')"><a href="/admin">Admin</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<ul class="sidenav" id="mobile-navbar">
+    <li><a href="/gaiola">Gaiola</a></li>
+    <li><a href="/passaros">Passáros</a></li>
+    <li sec:authorize="hasRole('ADMIN')"><a href="/admin">Admin</a></li>
+</ul>
+
 <h1 class="center"><b>EDITAR</b></h1>
 <header>
     <div class="row">
@@ -33,15 +48,18 @@
                     ID passaro: <input type="number" name="id" placeholder="1" value="" required id="idPassaro">
                 </div>
             </div>
-            <a id="sendPassaro"><button class="waves-effect waves-light btn" type="submit"><i class="material-icons left">
-                add_circle_outline</i>Adicionar passaro</button> </a>
+            <a id="sendPassaro">
+                <button class="waves-effect waves-light btn" type="submit" id="enviar">
+                    Adicionar passaro
+                </button>
+            </a>
         </form>
-        
+
     </div>
 
 </header>
 <div class="row" id="minhaTabela">
-    
+
     <table>
         <thead>
         <tr>
@@ -54,13 +72,11 @@
         </thead>
         <tbody>
         <tr th:each="passaro : ${passaros}">
-            
+
             <td th:text="${passaro.id}"></td>
-            <td><span th:text="${passaro.raca}"></span> </td>
-            <td><span th:text="${passaro.sexo}"></span> </td>
-            <td><span th:text="${passaro.gaiola}"></span> </td>
-            <td><a th:href="@{/removerPassaro{id}(id = ${passaro.id}) }"><i
-                    class="material-icons left">delete</i></a></td>
+            <td><span th:text="${passaro.raca}"></span></td>
+            <td><span th:text="${passaro.sexo}"></span></td>
+            <td><span th:text="${passaro.gaiola}"></span></td>
         </tr>
 
         </tbody>
@@ -70,5 +86,6 @@
 <script type="text/javascript" src="materialize/js/tableSelect.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+<script type="text/javascript" src="materialize/js/menu.js"></script>
 </body>
 </html>

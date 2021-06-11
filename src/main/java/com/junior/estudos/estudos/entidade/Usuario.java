@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 
@@ -24,13 +25,16 @@ public class Usuario implements UserDetails {
     @NotEmpty
     private String email;
     @NotEmpty
+    @Column
+    private Date DateTime;
+    @NotEmpty
     private String password;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Passaro> passaro;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Gaiola> gaiola;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "usuarios_roles",
             joinColumns = @JoinColumn(
@@ -54,6 +58,14 @@ public class Usuario implements UserDetails {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Date getDateTime() {
+        return DateTime;
+    }
+
+    public void setDateTime(Date dateTime) {
+        DateTime = dateTime;
     }
 
     public String getNome() {

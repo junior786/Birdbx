@@ -23,9 +23,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import javax.validation.Valid;
-
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
 
 @Controller
 public class ControllerGaiola {
@@ -51,6 +52,7 @@ public class ControllerGaiola {
 
     @RequestMapping(value = "/cadastro", method = RequestMethod.POST)
     public String cadastroPOST(@Valid Usuario usuario) {
+        Date date = new Date(System.currentTimeMillis());
         System.out.println("==========" + usuario.getNome());
         Roletb role = roleRepository.findById("ROLE_USER").get();
         List<Usuario> usuarios = userRepository.findAll();
@@ -64,7 +66,9 @@ public class ControllerGaiola {
         List<Roletb> lista = new ArrayList<>();
         lista.add(role);
         usuario.setRoles(lista);
+        System.out.println(usuario.getPassword());
         usuario.setPassword(new BCryptPasswordEncoder().encode(usuario.getPassword()));
+        usuario.setDateTime(date);
         userRepository.save(usuario);
 
         return "redirect:/login";
@@ -78,7 +82,7 @@ public class ControllerGaiola {
         List<Gaiola> gaiolas = usuario.getGaiola();
         gaiolas.sort((first, second) -> (int) (first.getNumero() - second.getNumero()));
         mv.addObject("gaiolas", gaiolas);
-        mv.addObject("usuario",usuario);
+        mv.addObject("usuario", usuario);
         return mv;
     }
 
@@ -142,6 +146,7 @@ public class ControllerGaiola {
         Usuario usuario = userRepository.findByEmail(credentials.getName());
 
         List<Passaro> passaros = usuario.getPassaro();
+        passaro.setUsuario(usuario);
         passaros.add(passaro);
         usuario.setPassaro(passaros);
         passaroRepository.save(passaro);
@@ -182,7 +187,6 @@ public class ControllerGaiola {
 
             }
         });
-
         passaroRepository.save(passaroId);
         usuario.setGaiola(gaiolas);
         userRepository.save(usuario);
@@ -230,38 +234,34 @@ public class ControllerGaiola {
         Usuario usuario = userRepository.findByEmail(credentials.getName());
 
         Gaiola gaiola = gaiolaRepository.findById(id).get();
-        List<Gaiola> gaiolaPassaro = usuario.getGaiola();
-        List<Passaro> gaioalPas = gaiola.getPassaro();
-        if (gaioalPas.size() != 0) {
-            return "redirect:/";
+
+        List<Passaro> passaros = gaiola.getPassaro();
+        usuario.getGaiola().remove(gaiola);
+        gaiola.setUsuario(null);
+
+
+        if (passaros.size() != 0) {
+            System.out.println("É A GAIOLA NÃO TA VAZIA");
+            return "redirect:/gaiola";
         }
-        gaiola.setPassaro(gaioalPas);
-        gaiolaPassaro.remove(gaiola);
+
+        gaiola.setPassaro(passaros);
         userRepository.save(usuario);
         gaiolaRepository.delete(gaiola);
-        return ("redirect:/gaiola");
+        return "redirect:/gaiola";
     }
 
     @RequestMapping("/removerPassaro{passaro.id}")
     public String removerPassaro(@PathVariable("passaro.id") long id) {
-        Authentication credentials = SecurityContextHolder.getContext().getAuthentication();
-        Usuario usuario = userRepository.findByEmail(credentials.getName());
-
 
         Passaro passaro = passaroRepository.findById(id);
-        List<Gaiola> gaiolas = usuario.getGaiola();
+        Gaiola gaiola = passaro.getGaiola();
+        List<Passaro> gaiolas = gaiola.getPassaro();
+        gaiolas.remove(passaro);
+        gaiola.setPassaro(gaiolas);
 
-        gaiolas.forEach(gaiola -> {
-            if (gaiola.getNumero() == id) {
-                List<Passaro> passaros = gaiola.getPassaro();
-                passaros.remove(passaro);
-            }
-        });
-
-        usuario.setGaiola(gaiolas);
-        userRepository.save(usuario);
-        passaro.setGaiola(null);
         passaroRepository.save(passaro);
+        gaiolaRepository.save(gaiola);
 
         return "redirect:/";
     }

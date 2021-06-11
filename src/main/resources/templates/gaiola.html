@@ -1,12 +1,14 @@
 <!doctype html>
 <html lang="pt-br" xmlns:th="http://thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="materialize/style/styleCss.css">
     <link href="materialize/css/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -14,35 +16,47 @@
     <title>Gaiolas</title>
 </head>
 <body>
-<nav>
-    <div class="nav-wrapper" id="header">
-        <a href="/" class="brand-logo">BirdBx</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="/gaiola">Gaiola</a></li>
-            <li><a href="/passaros">Passáros</a></li>
-        </ul>
-    </div>
-</nav>
-<h1 class="center">CADASTRAMENTO</h1>
+<div class="navbar-fixed">
+    <nav id="header">
+        <div class="nav-wrapper">
+            <a href="/" class="brand-logo">BIRD BX</a>
+            <a href="#" data-target="mobile-navbar" class="sidenav-trigger">
+                <i class="material-icons">menu</i>
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="/passaros">Passáros</a></li>
+                <li><a href="/static">Dados</a></li>
+                <li><a href="/logout">Sair</a></li>
+                <li sec:authorize="hasRole('ADMIN')"><a href="/admin">Admin</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<ul class="sidenav" id="mobile-navbar">
+    <li><a href="/gaiola">Gaiola</a></li>
+    <li><a href="/passaros">Passáros</a></li>
+    <li><a href="/static">Dados</a></li>
+    <li sec:authorize="hasRole('ADMIN')"><a href="/admin">Admin</a></li>
+</ul>
 <header>
-    <div class="row">
-        <form method="post" class="container">
-            <div class="row">
-                <div class="input-field col s2">
-                    Numero da gaiola: <input type="number" name="numero" placeholder="5" value="" required>
+    <div class="row center">
+        <form method="post" class="container" id="theForm">
+            <div class="row" style="padding-left: 5px;">
+                <div class="input-field col s6 m4 titulo">
+                   Número da gaiola <input type="number" name="numero" placeholder="1" value="" required id="nrGaiola" min="0">
                 </div>
-                <div class="input-field col s2">
-                    Numero de filhotes: <input type="number" name="numeroFilhotes" placeholder="2" value="" required>
+                <div class="input-field col s6 m4 titulo">
+                    Número de filhotes<input type="number" name="numeroFilhotes" placeholder="numero de filhotes" value="0" required min="0">
                 </div>
+                <span id="erro"></span>
             </div>
             <div>
                 <textarea placeholder="Escreva sua notacao aqui"
-                          name="notacao" onresize="none" class="textareacss"></textarea>
+                          name="notacao" onresize="none" class="textareacss" maxlength="90"></textarea>
             </div>
-            <button class="waves-effect waves-light btn" type="submit"><i class="material-icons left">
-                add_circle_outline</i>Criar gaiola
-            </button>
+            <button class="waves-effect waves-orange btn" type="button" id="enviar">Criar gaiola</button>
         </form>
+        
     </div>
 
 </header>
@@ -56,7 +70,7 @@
         </thead>
         <tbody>
         <tr th:each="gaiola : ${gaiolas}">
-            <td><span th:text="${gaiola.numero}"></span></td>
+            <td> <p th:text="${gaiola.numero}" id="numeroFilhote"></p></td>
             <td><span th:text="${gaiola.numeroFilhotes}"></span></td>
             <td><a th:href="@{/deletarGaiola{id}(id = ${gaiola.id}) }"><i
                     class="material-icons left">delete</i></a></td>
@@ -65,10 +79,9 @@
         </tbody>
     </table>
 </div>
-
-
-
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+<script type="text/javascript" src="materialize/js/menu.js"></script>
+<script type="text/javascript" src="materialize/js/gaiola.js"></script>
 </body>
 </html>
